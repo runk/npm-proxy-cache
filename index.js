@@ -1,30 +1,25 @@
-/*
-strict-ssl
-proxy
-https-proxy
-*/
+var http = require('http'),
+  net = require('net'),
+  https = require('https'),
+  fs = require('fs'),
+  request = require('request'),
+  url = require('url');
 
-var http = require('http');
-var net = require('net');
-var https = require('https');
-var fs = require('fs');
-var request = require('request');
-var url = require('url');
+var Cache = require('./lib/cache'),
+  Log = require('./lib/log');
+
 
 var options = {
   key: fs.readFileSync('cert/dummy.key', 'utf8'),
   cert: fs.readFileSync('cert/dummy.crt', 'utf8')
 };
 
-
-var Cache = require('./lib/cache');
 var cache = new Cache({
   path: __dirname + '/cache',
   ttl: 1800
 });
 
-
-var log = require('./lib/log');
+var log = new Log({level: Log.DEBUG });
 
 
 

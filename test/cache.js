@@ -19,7 +19,7 @@ describe('cache', function() {
   });
 
 
-  describe('constructor', function() {
+  describe('constructor()', function() {
     it('should create new instance of Cache', function() {
       var cache = new Cache(opts);
       assert(cache instanceof Cache);
