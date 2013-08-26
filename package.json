@@ -1,10 +1,10 @@
 {
-  "name": "npm-registry-cache",
+  "name": "npm-proxy-cache",
   "version": "0.0.1",
   "dependencies": {
     "request": "~2.27.0"
   },
-  "description": "npm-registry-cache ----",
+  "description": "NPM Registry caching proxy",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
@@ -20,7 +20,7 @@
     "registry",
     "cache",
     "proxy server",
-    "forward proxy",
+    "forward proxy"
   ],
   "author": "Dmitry Shirokov <deadrunk@gmail.com>",
   "license": "MIT",
