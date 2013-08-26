@@ -1,0 +1,30 @@
+{
+  "name": "npm-registry-cache",
+  "version": "0.0.1",
+  "dependencies": {
+    "request": "~2.27.0"
+  },
+  "description": "npm-registry-cache ----",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha -R spec --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:runk/npm-proxy-cache.git"
+  },
+  "keywords": [
+    "npm",
+    "proxy",
+    "registry",
+    "cache",
+    "proxy server",
+    "forward proxy",
+  ],
+  "author": "Dmitry Shirokov <deadrunk@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/runk/npm-proxy-cache/issues"
+  }
+}
