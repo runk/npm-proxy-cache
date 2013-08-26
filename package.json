@@ -2,11 +2,15 @@
   "name": "npm-proxy-cache",
   "version": "0.0.1",
   "dependencies": {
-    "request": "~2.27.0"
+    "request": "2.27.0",
+    "mkdirp": "0.3.5"
   },
   "description": "NPM Registry caching proxy",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "rimraf": "*"
+  },
   "scripts": {
     "test": "mocha -R spec --recursive"
   },
