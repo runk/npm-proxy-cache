@@ -3,10 +3,10 @@ var http = require('http'),
   https = require('https'),
   fs = require('fs'),
   request = require('request'),
-  url = require('url');
+  url = require('url'),
+  log4js = require('log4js');
 
-var Cache = require('./lib/cache'),
-  Log = require('./lib/log');
+var Cache = require('./lib/cache');
 
 
 var options = {
@@ -19,30 +19,41 @@ var cache = new Cache({
   ttl: 1800
 });
 
-var log = new Log({level: Log.DEBUG });
+
+var log = log4js.getLogger('proxy');
+log.setLevel('INFO');
 
 
 
-var handler = function(req, res) {
+
+function handler(req, res) {
   var path = url.parse(req.url).path;
-
-  log.debug('Request received: %s', path);
+  var schema = Boolean(req.client.pair) ? 'https' : 'http';
+  var dest = schema + '://' + req.headers['host'] + path;
 
   var params = {
-    url: 'https://registry.npmjs.org' + path,
+    url: dest,
     rejectUnauthorized: false
   };
 
-
-  if (cache.has(path)) {
-    log.debug('Returning cache for %s', path);
-    return cache.read(path).pipe(res);
+  var meta = cache.meta(dest);
+  if (meta) {
+    log.info('Hit', dest);
+    res.setHeader('Content-Length', meta.size);
+    res.setHeader('Content-Type', meta.type);
+    res.setHeader('Connection', 'keep-alive');
+    return cache.read(dest).pipe(res);
   }
 
-  log.debug('Fetching %s directly', path);
-  var file = cache.write(path);
+  log.info('Miss', dest);
 
-  var r = request(params);
+  var file = cache.write(dest);
+  var r = request(params, function(err, response) {
+    // don't save responses with codes other than 200
+    if (err || response.statusCode !== 200)
+      cache.unlink(dest);
+  });
+
   r.pipe(file);
   r.pipe(res);
 }
@@ -52,7 +63,7 @@ https.createServer(options, handler).listen(8081);
 
 var port = 8080; // default port if none on command line
 
-log.debug('server listening on %s:%s', 'localhost', port);
+log.info('Listening on %s:%s', 'localhost', port);
 
 // start HTTP server with custom request handler callback function
 var server = http.createServer(handler).listen(port);
@@ -67,22 +78,19 @@ server.addListener('connect', function(request, socketRequest, bodyhead) {
 
   // set up TCP connection
   var proxySocket = new net.Socket();
-  proxySocket.connect(
-    parseInt( hostport[1] ), hostport[0],
-    function() {
-      log.debug('  < connected to %s:%s', hostport[0], hostport[1]);
-      log.debug('  > writing head of length %d', bodyhead.length);
+  proxySocket.connect(hostport[1], hostport[0], function() {
+    log.debug('  < connected to %s:%s', hostport[0], hostport[1]);
+    log.debug('  > writing head of length %d', bodyhead.length);
 
-      proxySocket.write( bodyhead );
+    proxySocket.write(bodyhead);
 
-      // tell the caller the connection was successfully established
-      socketRequest.write("HTTP/" + httpVersion + " 200 Connection established\r\n\r\n");
-    }
-  );
+    // tell the caller the connection was successfully established
+    socketRequest.write("HTTP/" + httpVersion + " 200 Connection established\r\n\r\n");
+  });
 
   proxySocket.on('data', function(chunk) {
     log.debug('  < data length = %d', chunk.length);
-    socketRequest.write( chunk );
+    socketRequest.write(chunk);
   });
 
   proxySocket.on('end', function() {
@@ -101,13 +109,13 @@ server.addListener('connect', function(request, socketRequest, bodyhead) {
   });
 
   proxySocket.on('error', function(err) {
-    socketRequest.write( "HTTP/" + httpVersion + " 500 Connection error\r\n\r\n" );
-    log.debug('  < ERR: %s', err);
+    socketRequest.write("HTTP/" + httpVersion + " 500 Connection error\r\n\r\n");
+    log.error('  < ERR: %s', err);
     socketRequest.end();
   });
 
   socketRequest.on('error', function(err) {
-    log.debug('  > ERR: %s', err);
+    log.error('  > ERR: %s', err);
     proxySocket.end();
   });
 }); // HTTPS connect listener
