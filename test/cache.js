@@ -52,15 +52,18 @@ describe('cache', function() {
     })
   });
 
-  describe('has()', function() {
-    it('should return true', function() {
+
+  describe('meta()', function() {
+    it('should return meta', function() {
       var cache = new Cache(opts);
-      assert.equal(cache.has('/-/foo/bar.dat'), true);
+      var meta = cache.meta('/-/foo/bar.dat')
+      assert.equal(meta.size, 14);
+      assert.equal(meta.type, 'application/octet-stream');
     });
 
-    it('should return false', function() {
+    it('should return null', function() {
       var cache = new Cache(opts);
-      assert.equal(cache.has('/la/la'), false);
+      assert.equal(cache.meta('/la/la'), null);
     });
   });
 
@@ -68,10 +71,10 @@ describe('cache', function() {
   describe('getPath()', function() {
     it('return path info', function() {
       var cache = new Cache(opts);
-      var path = cache.getPath('/foo/bar/-/../baz.tgz')
-      assert.equal(path.dir, opts.path + '/foo/bar/-');
-      assert.equal(path.file, 'baz.tgz');
-      assert.equal(path.full, opts.path + '/foo/bar/-/baz.tgz');
+      var path = cache.getPath('/foo/bar/-/../baz.tgz');
+      assert.equal(path.dir, opts.path + '/f/a/7');
+      assert.equal(path.file, 'fa7bf9eb.tgz');
+      assert.equal(path.full, opts.path + '/f/a/7/fa7bf9eb.tgz');
     });
   });
 
