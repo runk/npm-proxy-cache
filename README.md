@@ -1,10 +1,59 @@
 
-npm-registry-cache (WIP)
+npm-registry-cache
+========
+
+HTTP/HTTPS caching proxy for work with `npm` utility. This is **not** a reverse proxy.
+
+You may find this tool useful if you are experiencing huge network lags / latency
+problems. Other solutions such as local CoachDB mirror of npm registry require much
+more work and maintenance.
+
+
+## Installation
+
+    npm install npm-registry-cache -g
+
+
+## Usage
+
+First of all, you need to configure `npm` to use proxy
+
+    $ npm config set proxy http://localhost:8080/
+    $ npm config set https-proxy http://localhost:8080/
+    $ npm config set strict-ssl false
+
+The `strict-ssl false` option is required since it's impossible to auth cached response
+from https proxy, which actully acts as a MITM (man in the middle).
+
+Once you have `npm` configured, start the proxy:
+
+    $ npm-registry-cache
+
+By default proxy starts on `localhost:8080` and have cache ttl 30 mins. These values might be
+overriden using command line options:
+
+    $ npm-proxy-cache --help
+
+      Usage: npm-proxy-cache [options]
+
+      Options:
+
+        -h, --help            output usage information
+        -V, --version         output the version number
+        -h, --host [name]     Hostname [localhost]
+        -p, --port [number]   An integer argument [8080]
+        -t, --ttl [seconds]   Cache lifetime in seconds [1800]
+        -s, --storage [path]  Storage path
+        -v, --verbose         Verbose mode
+
+
+## Why can't I use the built-in npm cache?
+
+Well, for some reason npm cache works not as expected and cache hits are low. Additionally,
+CI servers which run on multiply machines may utilize one cache storage which you can provide
+via caching proxy.
+
+
 ----
 
-
-### Quick setup
-
-    npm config set proxy http://localhost:8080/
-    npm config set https-proxy http://localhost:8080/
-    npm config set strict-ssl false
+Any feedback is welcome

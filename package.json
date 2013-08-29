@@ -7,7 +7,7 @@
     "log4js": "0.6.8",
     "commander": "2.0.0"
   },
-  "description": "NPM Registry caching proxy",
+  "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
     "mocha": "*",
