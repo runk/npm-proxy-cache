@@ -75,6 +75,7 @@ describe('cache', function() {
       assert.equal(path.dir, opts.path + '/f/a/7');
       assert.equal(path.file, 'fa7bf9eb.tgz');
       assert.equal(path.full, opts.path + '/f/a/7/fa7bf9eb.tgz');
+      assert.equal(path.rel, 'f/a/7/fa7bf9eb.tgz');
     });
   });
 

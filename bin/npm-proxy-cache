@@ -1,3 +1,16 @@
 #!/usr/bin/env node
 
-require('../lib/proxy')
+var fs = require('fs'),
+  program = require('commander');
+
+program
+  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+
+  .option('-h, --host [name]', 'Hostname [localhost]', 'localhost')
+  .option('-p, --port [number]', 'An integer argument [8080]', parseInt, 8080)
+  .option('-t, --ttl [seconds]', 'Cache lifetime in seconds [1800]', parseInt, 1800)
+  .option('-s, --storage [path]', 'Storage path', __dirname + '/../cache')
+  .option('-v, --verbose', 'Verbose mode')
+  .parse(process.argv);
+
+require('../lib/proxy').powerup(program);

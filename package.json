@@ -1,10 +1,11 @@
 {
   "name": "npm-proxy-cache",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "dependencies": {
     "request": "2.27.0",
     "mkdirp": "0.3.5",
-    "log4js": "0.6.8"
+    "log4js": "0.6.8",
+    "commander": "2.0.0"
   },
   "description": "NPM Registry caching proxy",
   "main": "index.js",
@@ -18,6 +19,9 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:runk/npm-proxy-cache.git"
+  },
+  "bin": {
+    "npm-proxy-cache": "./bin/npm-proxy-cache"
   },
   "keywords": [
     "npm",
