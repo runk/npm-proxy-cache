@@ -1,5 +1,5 @@
 
-npm-registry-cache
+npm-proxy-cache
 ========
 
 HTTP/HTTPS caching proxy for work with `npm` utility. This is **not** a reverse proxy.
@@ -11,7 +11,7 @@ more work and maintenance.
 
 ## Installation
 
-    npm install npm-registry-cache -g
+    npm install npm-proxy-cache -g
 
 
 ## Usage
@@ -31,7 +31,7 @@ from https proxy, which actully acts as a MITM (man in the middle).
 
 Once you have `npm` configured, start the proxy:
 
-    $ npm-registry-cache
+    $ npm-proxy-cache
 
 By default proxy starts on `localhost:8080` and have cache ttl 30 mins. These values might be
 overriden using command line options:
