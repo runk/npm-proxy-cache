@@ -35,5 +35,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/runk/npm-proxy-cache/issues"
+  },
+  "engines": {
+    "node": ">=0.10"
   }
 }

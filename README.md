@@ -58,6 +58,11 @@ CI servers which run on multiply machines may utilize one cache storage which yo
 via caching proxy.
 
 
+## Limitations
+
+Works only with node `0.10` and above
+
+
 ----
 
 Any feedback is welcome
