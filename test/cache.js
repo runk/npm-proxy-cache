@@ -54,16 +54,23 @@ describe('cache', function() {
 
 
   describe('meta()', function() {
-    it('should return meta', function() {
+    it('should return meta', function(done) {
       var cache = new Cache(opts);
-      var meta = cache.meta('/-/foo/bar.dat')
-      assert.equal(meta.size, 14);
-      assert.equal(meta.type, 'application/octet-stream');
+      cache.meta('/-/foo/bar.dat', function(err, meta) {
+        if (err) return done(err);
+        assert.equal(meta.size, 14);
+        assert.equal(meta.type, 'application/octet-stream');
+        done();
+      });
     });
 
-    it('should return null', function() {
+    it('should return null', function(done) {
       var cache = new Cache(opts);
-      assert.equal(cache.meta('/la/la'), null);
+      cache.meta('/la/la', function(err, meta) {
+        if (err) return done(err);
+        assert.equal(meta, null);
+        done();
+      });
     });
   });
 
