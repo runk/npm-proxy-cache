@@ -49,6 +49,7 @@ overriden using command line options:
         -t, --ttl [seconds]   Cache lifetime in seconds [1800]
         -s, --storage [path]  Storage path
         -v, --verbose         Verbose mode
+        -x, --proxy           HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
 
 
 ## Why can't I use the built-in npm cache?
