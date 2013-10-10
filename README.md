@@ -27,7 +27,9 @@ Another way is to use it explicitly with `npm install` command, like this:
     $ npm --proxy http://localhost:8080 --https-proxy http://localhost:8080 --strict-ssl false install
 
 The `strict-ssl false` option is required since it's impossible to auth cached response
-from https proxy, which actully acts as a MITM (man in the middle).
+from https proxy, which actully acts as a MITM (man in the middle). All other than `GET`
+requests *are not cached*, so you still be able to publish your modules to npm registry without
+switching cache on and off.
 
 Once you have `npm` configured, start the proxy:
 
@@ -61,7 +63,7 @@ via caching proxy.
 
 ## Limitations
 
-Works only with node `0.10` and above
+Works only with node `0.10` and above.
 
 
 ----
