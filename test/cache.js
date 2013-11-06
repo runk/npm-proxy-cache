@@ -5,17 +5,18 @@ var assert = require('assert'),
 
 describe('cache', function() {
 
-  var opts = {
-    path: __dirname + '/cache',
-    ttl: 10
-  };
+  var opts;
+  var path = __dirname + '/cache';
+  beforeEach(function() {
+    opts = {path: path, ttl: 10};
+  });
 
   before(function(done) {
-    rimraf(opts.path, done);
+    rimraf(path, done);
   });
 
   after(function(done) {
-    rimraf(opts.path, done);
+    rimraf(path, done);
   });
 
 
@@ -60,15 +61,16 @@ describe('cache', function() {
         if (err) return done(err);
         assert.equal(meta.size, 14);
         assert.equal(meta.type, 'application/octet-stream');
+        assert.equal(meta.status, Cache.FRESH);
         done();
       });
     });
 
-    it('should return null', function(done) {
+    it('should return NOT_FOUND status', function(done) {
       var cache = new Cache(opts);
       cache.meta('/la/la', function(err, meta) {
         if (err) return done(err);
-        assert.equal(meta, null);
+        assert.deepEqual(meta, {status: Cache.NOT_FOUND});
         done();
       });
     });
