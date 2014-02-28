@@ -44,14 +44,14 @@ overriden using command line options:
 
       Options:
 
-        -h, --help            output usage information
-        -V, --version         output the version number
         -h, --host [name]     Hostname [localhost]
         -p, --port [number]   An integer argument [8080]
         -t, --ttl [seconds]   Cache lifetime in seconds [1800]
         -s, --storage [path]  Storage path
-        -v, --verbose         Verbose mode
         -x, --proxy           HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
+        -e, --expired         Use expired cache when npm registry is offline
+        -v, --verbose         Verbose mode
+            --help            This help
 
 
 ## Why can't I use the built-in npm cache?
