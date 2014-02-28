@@ -11,6 +11,7 @@ program
   .option('-t, --ttl [seconds]', 'Cache lifetime in seconds [1800]', parseInt, 1800)
   .option('-s, --storage [path]', 'Storage path', __dirname + '/../cache')
   .option('-x, --proxy [address]', 'HTTP proxy to be used, e.g. http://user:pass@example.com:8888/')
+  .option('-e, --expired', 'Use expired cache when npm registry is offline')
   .option('-v, --verbose', 'Verbose mode')
   .parse(process.argv);
 
