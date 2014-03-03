@@ -49,7 +49,7 @@ overriden using command line options:
         -t, --ttl [seconds]   Cache lifetime in seconds [1800]
         -s, --storage [path]  Storage path
         -x, --proxy           HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
-        -e, --expired         Use expired cache when npm registry is offline
+        -e, --expired         Use expired cache when npm registry unavailable
         -v, --verbose         Verbose mode
             --help            This help
 
