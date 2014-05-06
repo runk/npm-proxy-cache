@@ -63,7 +63,8 @@ via caching proxy.
 
 ## Limitations
 
-Works only with node `0.10` and above.
+ - Works only with node `0.10` and above.
+ - Doesn't work on Windows platform
 
 
 ----
