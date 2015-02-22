@@ -50,6 +50,7 @@ overriden using command line options:
         -s, --storage [path]  Storage path
         -x, --proxy           HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
         -e, --expired         Use expired cache when npm registry unavailable
+        -f, --friendly-names  Use actual file names instead of hashes in the cache
         -v, --verbose         Verbose mode
             --help            This help
 
