@@ -86,6 +86,63 @@ describe('cache', function() {
       assert.equal(path.full, opts.path + '/f/a/7/fa7bf9eb.tgz');
       assert.equal(path.rel, 'f/a/7/fa7bf9eb.tgz');
     });
+
+    describe ('given the friendlyNames option is set', function () {
+      var cache;
+
+      beforeEach(function() {
+        opts.friendlyNames = true;
+        cache = new Cache(opts);
+      });
+
+      it('uses just the module name from the URL', function () {
+        var path = cache.getPath('http://registry/test');
+        assert.equal(path.dir, opts.path + '/t/e/s');
+        assert.equal(path.file, 'test');
+        assert.equal(path.full, opts.path + '/t/e/s/test');
+        assert.equal(path.rel, 't/e/s/test');
+      });
+
+      it('cuts the file extension from the module URL', function () {
+        var path = cache.getPath('http://registry/test.tgz');
+        assert.equal(path.dir, opts.path + '/t/e/s');
+        assert.equal(path.file, 'test.tgz');
+        assert.equal(path.full, opts.path + '/t/e/s/test.tgz');
+        assert.equal(path.rel, 't/e/s/test.tgz');
+      });
+
+      it('cuts the version suffix from the module URL', function () {
+        var path = cache.getPath('http://registry/test-1.2.3.tgz');
+        assert.equal(path.dir, opts.path + '/t/e/s');
+        assert.equal(path.file, 'test-1.2.3.tgz');
+        assert.equal(path.full, opts.path + '/t/e/s/test-1.2.3.tgz');
+        assert.equal(path.rel, 't/e/s/test-1.2.3.tgz');
+      });
+
+      it('uses hyphens instead of dots in the directory structure', function () {
+        var path = cache.getPath('http://registry/te.st');
+        assert.equal(path.dir, opts.path + '/t/e/-');
+        assert.equal(path.file, 'te.st');
+        assert.equal(path.full, opts.path + '/t/e/-/te.st');
+        assert.equal(path.rel, 't/e/-/te.st');
+      });
+
+      it('uses short direcory structure for short module name', function () {
+        var path = cache.getPath('http://registry/q');
+        assert.equal(path.dir, opts.path + '/q');
+        assert.equal(path.file, 'q');
+        assert.equal(path.full, opts.path + '/q/q');
+        assert.equal(path.rel, 'q/q');
+      });
+
+      it('cuts the version suffix and file extension from short module names', function () {
+        var path = cache.getPath('http://registry/q-1.2.3.tgz');
+        assert.equal(path.dir, opts.path + '/q');
+        assert.equal(path.file, 'q-1.2.3.tgz');
+        assert.equal(path.full, opts.path + '/q/q-1.2.3.tgz');
+        assert.equal(path.rel, 'q/q-1.2.3.tgz');
+      });
+    });
   });
 
 });
