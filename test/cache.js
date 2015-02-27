@@ -129,18 +129,18 @@ describe('cache', function() {
 
       it('uses short direcory structure for short module name', function () {
         var path = cache.getPath('http://registry/q');
-        assert.equal(path.dir, opts.path + '/q');
+        assert.equal(path.dir, opts.path + '/q/-/-');
         assert.equal(path.file, 'q');
-        assert.equal(path.full, opts.path + '/q/q');
-        assert.equal(path.rel, 'q/q');
+        assert.equal(path.full, opts.path + '/q/-/-/q');
+        assert.equal(path.rel, 'q/-/-/q');
       });
 
       it('cuts the version suffix and file extension from short module names', function () {
         var path = cache.getPath('http://registry/q-1.2.3.tgz');
-        assert.equal(path.dir, opts.path + '/q');
+        assert.equal(path.dir, opts.path + '/q/-/-');
         assert.equal(path.file, 'q-1.2.3.tgz');
-        assert.equal(path.full, opts.path + '/q/q-1.2.3.tgz');
-        assert.equal(path.rel, 'q/q-1.2.3.tgz');
+        assert.equal(path.full, opts.path + '/q/-/-/q-1.2.3.tgz');
+        assert.equal(path.rel, 'q/-/-/q-1.2.3.tgz');
       });
     });
   });
