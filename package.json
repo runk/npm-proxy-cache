@@ -1,17 +1,17 @@
 {
   "name": "npm-proxy-cache",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "dependencies": {
-    "request": "2.27.0",
-    "mkdirp": "0.3.5",
-    "log4js": "0.6.8",
-    "commander": "2.0.0"
+    "commander": "^2.8.1",
+    "log4js": "^0.6.26",
+    "mkdirp": "^0.5.1",
+    "request": "^2.61.0"
   },
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
-    "mocha": "*",
-    "rimraf": "*"
+    "mocha": "latest",
+    "rimraf": "latest"
   },
   "scripts": {
     "test": "mocha -R spec --recursive"
