@@ -1,6 +1,6 @@
 {
   "name": "npm-proxy-cache",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "dependencies": {
     "commander": "^2.8.1",
     "log4js": "^0.6.26",
@@ -32,6 +32,9 @@
     "forward proxy"
   ],
   "author": "Dmitry Shirokov <deadrunk@gmail.com>",
+  "contributors": [
+    "@someuser77"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/runk/npm-proxy-cache/issues"
