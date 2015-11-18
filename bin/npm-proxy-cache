@@ -18,6 +18,7 @@ program
   .option('-e, --expired', 'Use expired cache when npm registry unavailable')
   .option('-f, --friendly-names', 'Use actual file names instead of hashes in the cache')
   .option('-v, --verbose', 'Verbose mode')
+  .option('-l, --log-path [path]', 'Log path')
   .parse(process.argv);
 
 require('../lib/proxy').powerup(program);
