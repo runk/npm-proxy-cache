@@ -18,9 +18,12 @@ more work and maintenance.
 
 First of all, you need to configure `npm` to use proxy
 
+    $ export NODE_TLS_REJECT_UNAUTHORIZED=0
     $ npm config set proxy http://localhost:8080/
     $ npm config set https-proxy http://localhost:8080/
     $ npm config set strict-ssl false
+
+`NODE_TLS_REJECT_UNAUTHORIZED=0` must be set whenever calling npm.
 
 Another way is to use it explicitly with `npm install` command, like this:
 
