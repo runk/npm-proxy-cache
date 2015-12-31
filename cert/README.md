@@ -20,4 +20,4 @@ Detailed instructions: http://www.akadia.com/services/ssh_test_certificate.html
 
 #### Step 4: Generating a Self-Signed Certificate
 
-    openssl x509 -req -days 365 -in dummy.csr -signkey dummy.key -out dummy.crt
+    openssl x509 -req -days 3650 -in dummy.csr -signkey dummy.key -out dummy.crt
