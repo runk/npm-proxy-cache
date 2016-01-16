@@ -19,7 +19,8 @@ program
   .option('-f, --friendly-names', 'Use actual file names instead of hashes in the cache')
   .option('-v, --verbose', 'Verbose mode')
   .option('-l, --log-path [path]', 'Log path')
-  .option('-m, --mitmport [port]', 'HTTPs port to use instead of MITM (necessary for running on Windows systems)')
+  .option('-m, --internal-port [port]',
+    'HTTPs port to use for internal proxying "MITM" server (necessary for running on Windows systems)')
   .parse(process.argv);
 
 require('../lib/proxy').powerup(program);
