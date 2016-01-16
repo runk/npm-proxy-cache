@@ -52,7 +52,9 @@ overriden using command line options:
         -e, --expired         Use expired cache when npm registry unavailable
         -f, --friendly-names  Use actual file names instead of hashes in the cache
         -v, --verbose         Verbose mode
-            --help            This help
+        -l, --log-path        Log path
+        -m, --internal-port   HTTPs port to use for internal proxying "MITM" server (necessary for running on Windows systems)
+        --help                This help
 
 
 ## Why can't I use the built-in npm cache?
