@@ -1,8 +1,8 @@
 {
   "name": "npm-proxy-cache",
-  "version": "0.4.0",
-  "publishConfig":{
-    "registry":"https://registry.npmjs.org/"
+  "version": "0.4.1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "commander": "^2.8.1",
