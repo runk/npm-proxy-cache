@@ -20,7 +20,7 @@ program
   .option('-v, --verbose', 'Verbose mode')
   .option('-l, --log-path [path]', 'Log path')
   .option('-m, --internal-port [port]',
-    'HTTPs port to use for internal proxying "MITM" server (mandatory on Windows systems)', numeric, 8081)
+    'HTTPs port to use for internal proxying "MITM" server (mandatory on Windows systems)')
   .parse(process.argv);
 
 require('../lib/proxy').powerup(program);
