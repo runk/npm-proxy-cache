@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
+    "hash-files": "1.1.1",
     "log4js": "^0.6.26",
     "mkdirp": "^0.5.1",
     "request": "^2.61.0"
