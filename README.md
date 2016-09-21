@@ -63,6 +63,16 @@ Well, for some reason npm cache works not as expected and cache hits are low. Ad
 CI servers which run on multiply machines may utilize one cache storage which you can provide
 via caching proxy.
 
+## Docker
+
+To use a docker container, run:
+
+```bash
+curl -sSL https://get.docker.com/ | sh
+docker pull folha/npm-proxy-cache
+docker run --restart=always --net=host -p 8080:8080 -t folha/npm-proxy-cache --name=npm-proxy-cache
+npm --proxy http://npm-proxy-cache:8080 --https-proxy http://npm-proxy-cache:8080 --strict-ssl false install
+```
 
 ## Limitations
 
