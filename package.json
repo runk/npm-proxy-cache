@@ -8,7 +8,7 @@
     "commander": "^2.8.1",
     "log4js": "^0.6.26",
     "mkdirp": "^0.5.1",
-    "request": "^2.61.0"
+    "request": "^2.81.0"
   },
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
