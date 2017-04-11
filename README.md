@@ -56,6 +56,17 @@ overriden using command line options:
         -m, --internal-port   HTTPs port to use for internal proxying "MITM" server (necessary for running on Windows systems)
         --help                This help
 
+## Docker
+
+The docker image of this repository is not hosted on Docker Hub (yet)
+
+To run npm-proxy-cache as a Docker container, you need to build the image first:
+
+`docker build -t npm-proxy-cache .`
+
+After building the image successfully, you can run the Docker container. To pass parameters, simply append them to the `docker run` command, like so:
+
+`docker run -t npm-proxy-cache --port 8080 --host 0.0.0.0 --expired`
 
 ## Why can't I use the built-in npm cache?
 
