@@ -1,0 +1,6 @@
+npmproxycache:
+    build: .
+    ports:
+      - "8080:8080"
+    # You can pass parameters here
+    command: "--host 0.0.0.0 --port 8080 --verbose --expired"
