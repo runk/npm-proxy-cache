@@ -1,5 +1,7 @@
 FROM mhart/alpine-node
 
+MAINTAINER Dmitry Shirokov <deadrunk@gmail.com>
+
 ADD package.json /tmp/package.json
 
 RUN cd /tmp && \
