@@ -14,7 +14,8 @@
   "main": "index.js",
   "devDependencies": {
     "mocha": "latest",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "uuid": "^3.0.1"
   },
   "scripts": {
     "test": "mocha -R spec --recursive",
