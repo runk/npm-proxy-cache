@@ -1,5 +1,5 @@
 
-npm-proxy-cache
+npm-proxy-cache  [![Build Status](https://travis-ci.org/runk/npm-proxy-cache.svg?branch=master)](https://travis-ci.org/runk/npm-proxy-cache)
 ========
 
 HTTP/HTTPS caching proxy for work with `npm` utility. This is **not** a reverse proxy.
@@ -10,7 +10,8 @@ more work and maintenance.
 
 
 ## Installation
-### NPM
+
+### npm
     npm install npm-proxy-cache -g
 
 ### Docker
@@ -18,23 +19,32 @@ The docker image of this repository is not hosted on Docker Hub (yet)
 
 To run npm-proxy-cache as a Docker container, you need to build the image first:
 
-`docker build -t npm-proxy-cache .`
+```shell
+docker build -t npm-proxy-cache .
+```
 
 After building the image successfully, you can run the Docker container. To pass parameters, simply append them to the `docker run` command, like so:
 
-`docker run -t npm-proxy-cache --port 8080 --host 0.0.0.0 --expired`
+```shell
+docker run -t npm-proxy-cache --port 8080 --host 0.0.0.0 --expired
+```
+
 
 ## Usage
 
 First of all, you need to configure `npm` to use proxy
 
-    $ npm config set proxy http://localhost:8080/
-    $ npm config set https-proxy http://localhost:8080/
-    $ npm config set strict-ssl false
+```shell
+npm config set proxy http://localhost:8080/
+npm config set https-proxy http://localhost:8080/
+npm config set strict-ssl false
+```
 
 Another way is to use it explicitly with `npm install` command, like this:
 
-    $ npm --proxy http://localhost:8080 --https-proxy http://localhost:8080 --strict-ssl false install
+```shell
+npm --proxy http://localhost:8080 --https-proxy http://localhost:8080 --strict-ssl false install
+```
 
 The `strict-ssl false` option is required since it's impossible to auth cached response
 from https proxy, which actully acts as a MITM (man in the middle). All other than `GET`
@@ -43,29 +53,33 @@ switching cache on and off.
 
 Once you have `npm` configured, start the proxy:
 
-    $ npm-proxy-cache
+```shell
+npm-proxy-cache
+```
 
 By default proxy starts on `localhost:8080` and have cache ttl 30 mins. These values might be
 overriden using command line options:
 
-    $ npm-proxy-cache --help
+```text
+npm-proxy-cache --help
 
-      Usage: npm-proxy-cache [options]
+  Usage: npm-proxy-cache [options]
 
-      Options:
+  Options:
 
-        -h, --host [name]       Hostname [localhost]
-        -p, --port [number]     An integer argument [8080]
-        -t, --ttl [seconds]     Cache lifetime in seconds [1800]
-        -s, --storage [path]    Storage path
-        -x, --proxy             HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
-        -e, --expired           Use expired cache when npm registry unavailable
-        -f, --friendly-names    Use actual file names instead of hashes in the cache
-        -v, --verbose           Verbose mode
-        -n, --metadata-excluded Exclude metadata requests from caching
-        -l, --log-path          Log path
-        -m, --internal-port     HTTPs port to use for internal proxying "MITM" server (necessary for running on Windows systems)
-        --help                  This help
+    -h, --host [name]       Hostname [localhost]
+    -p, --port [number]     An integer argument [8080]
+    -t, --ttl [seconds]     Cache lifetime in seconds [1800]
+    -s, --storage [path]    Storage path
+    -x, --proxy             HTTP proxy to be used, e.g. http://user:pass@example.com:8888/
+    -e, --expired           Use expired cache when npm registry unavailable
+    -f, --friendly-names    Use actual file names instead of hashes in the cache
+    -v, --verbose           Verbose mode
+    -n, --metadata-excluded Exclude metadata requests from caching
+    -l, --log-path          Log path
+    -m, --internal-port     HTTPs port to use for internal proxying "MITM" server (necessary for running on Windows systems)
+    --help                  This help
+```
 
 ## Why can't I use the built-in npm cache?
 
@@ -77,7 +91,7 @@ via caching proxy.
 
 To use a docker container, run:
 
-```bash
+```shell
 curl -sSL https://get.docker.com/ | sh
 docker pull folha/npm-proxy-cache
 docker run --restart=always --net=host -p 8080:8080 -t folha/npm-proxy-cache --name=npm-proxy-cache
