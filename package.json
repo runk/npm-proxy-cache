@@ -20,8 +20,9 @@
     "uuid": "^3.0.1"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc --fix .",
+    "lint": "eslint -c .eslintrc .",
     "release": "scripts/release",
+    "pretest": "npm run lint",
     "test": "mocha -R spec --recursive"
   },
   "repository": {
