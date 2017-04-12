@@ -13,15 +13,14 @@
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
-    "mocha": "latest",
-    "rimraf": "latest",
+    "github-publish-release": "^1.3.3",
+    "mocha": "^3.2.0",
+    "rimraf": "^2.6.1",
     "uuid": "^3.0.1"
   },
   "scripts": {
     "test": "mocha -R spec --recursive",
-    "release:major": "npm version major && npm publish && git push --follow-tags",
-    "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:patch": "npm version patch && npm publish && git push --follow-tags"
+    "release": "scripts/release"
   },
   "repository": {
     "type": "git",

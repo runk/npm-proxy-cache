@@ -1,0 +1,23 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/m48692/.nvm/versions/node/v6.9.1/bin/node',
+1 verbose cli   '/Users/m48692/.nvm/versions/node/v6.9.1/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'release',
+1 verbose cli   '--major' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 verbose stack Error: missing script: release
+4 verbose stack     at run (/Users/m48692/.nvm/versions/node/v6.9.1/lib/node_modules/npm/lib/run-script.js:151:19)
+4 verbose stack     at /Users/m48692/.nvm/versions/node/v6.9.1/lib/node_modules/npm/lib/run-script.js:61:5
+4 verbose stack     at /Users/m48692/.nvm/versions/node/v6.9.1/lib/node_modules/npm/node_modules/read-package-json/read-json.js:356:5
+4 verbose stack     at handleExists (/Users/m48692/.nvm/versions/node/v6.9.1/lib/node_modules/npm/node_modules/read-package-json/read-json.js:329:20)
+4 verbose stack     at FSReqWrap.cb [as oncomplete] (fs.js:257:19)
+5 verbose cwd /Users/m48692/projects/npm-proxy-cache
+6 error Darwin 15.6.0
+7 error argv "/Users/m48692/.nvm/versions/node/v6.9.1/bin/node" "/Users/m48692/.nvm/versions/node/v6.9.1/bin/npm" "run" "release" "--major"
+8 error node v6.9.1
+9 error npm  v3.10.8
+10 error missing script: release
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]
