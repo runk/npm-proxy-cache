@@ -1,6 +1,7 @@
 'use strict';
 var assert = require('assert'),
   path = require('path'),
+  fs = require('fs'),
   rimraf = require('rimraf'),
   Cache = require('../lib/cache');
 
@@ -8,8 +9,11 @@ describe('cache', function() {
 
   var opts;
   var filepath = path.join(__dirname, '/cache');
+
+  var dummy = 'Lorem ipsum dolor sit amet ...\n';
+
   beforeEach(function() {
-    opts = {path: filepath, ttl: 10};
+    opts = { path: filepath, ttl: 10 };
   });
 
   before(function(done) {
@@ -29,16 +33,39 @@ describe('cache', function() {
   });
 
 
-  describe('set()', function() {
-    it('should create new write stream', function() {
+  describe('write()', function() {
+    var readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
+
+    it('should write the file', function(done) {
       var cache = new Cache(opts);
-      var file = cache.write('/-/foo/bar.dat');
-      file.end(new Buffer('This is a test'));
+      var key = '/-/foo/bar.dat';
+      var pathInfo = cache.getPath(key);
+      cache.write(key, readStream, function(err, meta) {
+        assert.equal(meta.size, 31);
+        assert.equal(meta.status, 4);
+        assert.equal(fs.readFileSync(pathInfo.full, 'utf8'), dummy);
+        done();
+      });
+    });
+
+    it('should handle locks', function(done) {
+      var cache = new Cache(opts);
+      var readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
+      var key = '/-/foo/baz.dat';
+      var pathInfo = cache.getPath(key);
+      cache.write(key, readStream, function(err, meta) {
+        assert(!cache.locks[key], 'Lock should be released');
+        assert(fs.existsSync(pathInfo.full));
+        done();
+      });
+
+      assert(cache.locks[key], 'Lock should be set');
+      assert(!fs.existsSync(pathInfo.full));
     });
   });
 
 
-  describe('get()', function() {
+  describe('read()', function() {
     it('should create new read stream', function(done) {
       var cache = new Cache(opts);
       var readable = cache.read('/-/foo/bar.dat');
@@ -46,7 +73,7 @@ describe('cache', function() {
       readable.setEncoding('utf8');
       readable.on('data', function(data) {
         assert.equal(typeof data, 'string');
-        assert.equal(data.toString(), 'This is a test');
+        assert.equal(data.toString(), dummy);
         done();
       });
 
@@ -60,7 +87,7 @@ describe('cache', function() {
       var cache = new Cache(opts);
       cache.meta('/-/foo/bar.dat', function(err, meta) {
         if (err) return done(err);
-        assert.equal(meta.size, 14);
+        assert.equal(meta.size, 31);
         assert.equal(meta.type, 'application/octet-stream');
         assert.equal(meta.status, Cache.FRESH);
         done();
