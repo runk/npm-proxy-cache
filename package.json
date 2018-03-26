@@ -5,7 +5,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "commander": "^2.8.1",
+    "commander": "^2.15.1",
     "log4js": "^0.6.26",
     "mkdirp": "^0.5.1",
     "request": "^2.81.0"
@@ -14,16 +14,14 @@
   "main": "index.js",
   "devDependencies": {
     "eslint": "^3.19.0",
-    "github-publish-release": "^1.3.3",
-    "mocha": "^3.2.0",
-    "rimraf": "^2.6.1",
-    "uuid": "^3.0.1"
+    "github-publish-release": "^4.2.0",
+    "mocha": "^5.0.5",
+    "rimraf": "^2.6.1"
   },
   "scripts": {
-    "lint": "eslint -c .eslintrc .",
+    "lint": "scripts/lint",
     "release": "scripts/release",
-    "pretest": "npm run lint",
-    "test": "mocha -R spec --recursive"
+    "test": "scripts/test"
   },
   "repository": {
     "type": "git",
