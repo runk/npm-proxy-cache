@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "commander": "^2.15.1",
-    "log4js": "^0.6.26",
+    "log4js": "^2.5.3",
     "mkdirp": "^0.5.1",
     "mv": "^2.1.1",
     "request": "^2.81.0"
@@ -14,7 +14,7 @@
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
-    "eslint": "^3.19.0",
+    "eslint": "^4.19.1",
     "github-publish-release": "^4.2.0",
     "mocha": "^5.0.5",
     "rimraf": "^2.6.1"

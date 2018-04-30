@@ -2,6 +2,8 @@
 npm-proxy-cache  [![Build Status](https://travis-ci.org/runk/npm-proxy-cache.svg?branch=master)](https://travis-ci.org/runk/npm-proxy-cache)
 ========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/runk/npm-proxy-cache.svg)](https://greenkeeper.io/)
+
 HTTP/HTTPS caching proxy for work with `npm` utility. This is **not** a reverse proxy.
 
 You may find this tool useful if you are experiencing huge network lags / latency
