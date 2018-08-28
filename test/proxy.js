@@ -1,17 +1,17 @@
 'use strict';
-var assert = require('assert'),
-  http = require('http'),
-  request = require('request');
+const assert = require('assert');
+const http = require('http');
+const request = require('request');
 
 
 describe('proxy', function() {
 
-  var MOCK_PORT = 5000;
-  var PROXY_PORT = 32403;
-  var calledMock = {};
-  var proxy;
+  const MOCK_PORT = 5000;
+  const PROXY_PORT = 32403;
+  const calledMock = {};
+  let proxy;
 
-  var server = http.createServer(function(req, res) {
+  const server = http.createServer(function(req, res) {
     calledMock[req.method + req.url] = calledMock[req.method + req.url] + 1 || 1;
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ random: Math.random() }));
@@ -50,7 +50,9 @@ describe('proxy', function() {
   it('should not cache metadata requests', function(done) {
     performNpmRequest(function(err, res, resBody) {
       if (err) return done(err);
-      var originalBody = resBody;
+
+      const originalBody = resBody;
+
       performNpmRequest(function(err, res, resBody) {
         if (err) return done(err);
         assert.notDeepEqual(resBody, originalBody);
