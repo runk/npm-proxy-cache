@@ -1,16 +1,16 @@
 'use strict';
-var assert = require('assert'),
-  path = require('path'),
-  fs = require('fs'),
-  rimraf = require('rimraf'),
-  Cache = require('../lib/cache');
+const assert = require('assert');
+const path = require('path');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const Cache = require('../lib/cache');
 
 describe('cache', function() {
 
-  var opts;
-  var filepath = path.join(__dirname, '/cache');
+  let opts;
+  const filepath = path.join(__dirname, '/cache');
 
-  var dummy = 'Lorem ipsum dolor sit amet ...\n';
+  const dummy = 'Lorem ipsum dolor sit amet ...\n';
 
   beforeEach(function() {
     opts = { path: filepath, ttl: 10 };
@@ -27,19 +27,19 @@ describe('cache', function() {
 
   describe('constructor()', function() {
     it('should create new instance of Cache', function() {
-      var cache = new Cache(opts);
+      const cache = new Cache(opts);
       assert(cache instanceof Cache);
     });
   });
 
 
   describe('write()', function() {
-    var readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
+    const readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
 
     it('should write the file', function(done) {
-      var cache = new Cache(opts);
-      var key = '/-/foo/bar.dat';
-      var pathInfo = cache.getPath(key);
+      const cache = new Cache(opts);
+      const key = '/-/foo/bar.dat';
+      const pathInfo = cache.getPath(key);
       cache.write(key, readStream, function(err, meta) {
         assert.equal(meta.size, 31);
         assert.equal(meta.status, 4);
@@ -49,10 +49,10 @@ describe('cache', function() {
     });
 
     it('should handle locks', function(done) {
-      var cache = new Cache(opts);
-      var readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
-      var key = '/-/foo/baz.dat';
-      var pathInfo = cache.getPath(key);
+      const cache = new Cache(opts);
+      const readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
+      const key = '/-/foo/baz.dat';
+      const pathInfo = cache.getPath(key);
       cache.write(key, readStream, function(err, meta) {
         assert(!cache.locks[key], 'Lock should be released');
         assert(fs.existsSync(pathInfo.full));
@@ -67,8 +67,8 @@ describe('cache', function() {
 
   describe('read()', function() {
     it('should create new read stream', function(done) {
-      var cache = new Cache(opts);
-      var readable = cache.read('/-/foo/bar.dat');
+      const cache = new Cache(opts);
+      const readable = cache.read('/-/foo/bar.dat');
 
       readable.setEncoding('utf8');
       readable.on('data', function(data) {
@@ -84,7 +84,7 @@ describe('cache', function() {
 
   describe('meta()', function() {
     it('should return meta', function(done) {
-      var cache = new Cache(opts);
+      const cache = new Cache(opts);
       cache.meta('/-/foo/bar.dat', function(err, meta) {
         if (err) return done(err);
         assert.equal(meta.size, 31);
@@ -95,7 +95,7 @@ describe('cache', function() {
     });
 
     it('should return NOT_FOUND status', function(done) {
-      var cache = new Cache(opts);
+      const cache = new Cache(opts);
       cache.meta('/la/la', function(err, meta) {
         if (err) return done(err);
         assert.deepEqual(meta, {status: Cache.NOT_FOUND});
@@ -107,8 +107,8 @@ describe('cache', function() {
 
   describe('getPath()', function() {
     it('return path info', function() {
-      var cache = new Cache(opts);
-      var filepath = cache.getPath('/foo/bar/-/../baz.tgz');
+      const cache = new Cache(opts);
+      const filepath = cache.getPath('/foo/bar/-/../baz.tgz');
       assert.equal(filepath.dir, opts.path + '/f/a/7');
       assert.equal(filepath.file, 'fa7bf9eb.tgz');
       assert.equal(filepath.full, opts.path + '/f/a/7/fa7bf9eb.tgz');
@@ -116,7 +116,7 @@ describe('cache', function() {
     });
 
     describe ('given the friendlyNames option is set', function() {
-      var cache;
+      let cache;
 
       beforeEach(function() {
         opts.friendlyNames = true;
@@ -124,7 +124,7 @@ describe('cache', function() {
       });
 
       it('uses just the module name from the URL', function() {
-        var filepath = cache.getPath('http://registry/test');
+        const filepath = cache.getPath('http://registry/test');
         assert.equal(filepath.dir, opts.path + '/t/e/s');
         assert.equal(filepath.file, 'test');
         assert.equal(filepath.full, opts.path + '/t/e/s/test');
@@ -132,7 +132,7 @@ describe('cache', function() {
       });
 
       it('cuts the file extension from the module URL', function() {
-        var filepath = cache.getPath('http://registry/test.tgz');
+        const filepath = cache.getPath('http://registry/test.tgz');
         assert.equal(filepath.dir, opts.path + '/t/e/s');
         assert.equal(filepath.file, 'test.tgz');
         assert.equal(filepath.full, opts.path + '/t/e/s/test.tgz');
@@ -140,7 +140,7 @@ describe('cache', function() {
       });
 
       it('cuts the version suffix from the module URL', function() {
-        var filepath = cache.getPath('http://registry/test-1.2.3.tgz');
+        const filepath = cache.getPath('http://registry/test-1.2.3.tgz');
         assert.equal(filepath.dir, opts.path + '/t/e/s');
         assert.equal(filepath.file, 'test-1.2.3.tgz');
         assert.equal(filepath.full, opts.path + '/t/e/s/test-1.2.3.tgz');
@@ -148,7 +148,7 @@ describe('cache', function() {
       });
 
       it('uses hyphens instead of dots in the directory structure', function() {
-        var filepath = cache.getPath('http://registry/te.st');
+        const filepath = cache.getPath('http://registry/te.st');
         assert.equal(filepath.dir, opts.path + '/t/e/-');
         assert.equal(filepath.file, 'te.st');
         assert.equal(filepath.full, opts.path + '/t/e/-/te.st');
@@ -156,7 +156,7 @@ describe('cache', function() {
       });
 
       it('uses short direcory structure for short module name', function() {
-        var filepath = cache.getPath('http://registry/q');
+        const filepath = cache.getPath('http://registry/q');
         assert.equal(filepath.dir, opts.path + '/q/-/-');
         assert.equal(filepath.file, 'q');
         assert.equal(filepath.full, opts.path + '/q/-/-/q');
@@ -164,7 +164,7 @@ describe('cache', function() {
       });
 
       it('cuts the version suffix and file extension from short module names', function() {
-        var filepath = cache.getPath('http://registry/q-1.2.3.tgz');
+        const filepath = cache.getPath('http://registry/q-1.2.3.tgz');
         assert.equal(filepath.dir, opts.path + '/q/-/-');
         assert.equal(filepath.file, 'q-1.2.3.tgz');
         assert.equal(filepath.full, opts.path + '/q/-/-/q-1.2.3.tgz');
