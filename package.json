@@ -14,7 +14,7 @@
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "eslint": "^5.4.0",
     "github-publish-release": "^5.0.0",
     "mocha": "^5.2.0",
     "rimraf": "^2.6.2"
@@ -41,7 +41,8 @@
   ],
   "author": "Dmitry Shirokov <deadrunk@gmail.com>",
   "contributors": [
-    "@someuser77"
+    "@someuser77",
+    "@FrankZZ"
   ],
   "license": "MIT",
   "bugs": {
