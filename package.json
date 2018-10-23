@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "commander": "^2.17.1",
-    "log4js": "^2.11.0",
+    "log4js": "^3.0.6",
     "mkdirp": "^0.5.1",
     "mv": "^2.1.1",
     "request": "^2.88.0"
@@ -49,6 +49,6 @@
     "url": "https://github.com/runk/npm-proxy-cache/issues"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=6"
   }
 }
