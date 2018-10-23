@@ -49,6 +49,6 @@
     "url": "https://github.com/runk/npm-proxy-cache/issues"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=6"
   }
 }
