@@ -3,10 +3,9 @@ FROM node:24-alpine
 LABEL maintainer="Dmitry Shirokov <deadrunk@gmail.com>"
 
 ADD package.json /tmp/package.json
-ADD package-lock.json /tmp/package-lock.json
 
 RUN cd /tmp && \
-    npm ci --omit=dev && \
+    npm install --omit=dev && \
     mkdir -p /opt/npm-proxy-cache && \
     cp -a /tmp/node_modules /opt/npm-proxy-cache && \
     mkdir -p /opt/npm-proxy-cache/cache

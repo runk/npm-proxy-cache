@@ -18,7 +18,6 @@
   },
   "scripts": {
     "lint": "scripts/lint",
-    "release": "scripts/release",
     "test": "scripts/test"
   },
   "repository": {
