@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Exit immediately if a pipeline returns non-zero status
 # http://www.gnu.org/software/bash/manual/bashref.html#The-Set-Builtin
@@ -15,4 +15,4 @@ if [ -n "$npm_config_fix" ]; then
   FIX="--fix"
 fi
 
-if [ "$LIST" ]; then eslint $FIX --config .eslintrc $LIST; fi
+if [ "$LIST" ]; then eslint $FIX $LIST; fi

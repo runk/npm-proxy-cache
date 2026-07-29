@@ -5,23 +5,19 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "commander": "^2.17.1",
-    "log4js": "^3.0.6",
-    "mkdirp": "^0.5.1",
-    "mv": "^2.1.1",
-    "request": "^2.88.0"
+    "https-proxy-agent": "^9.1.0",
+    "log4js": "^6.9.1"
   },
   "description": "HTTP/HTTPS caching proxy for work with `npm` utility / registry",
   "main": "index.js",
   "devDependencies": {
-    "eslint": "^5.4.0",
-    "github-publish-release": "^5.0.0",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.2"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0",
+    "mocha": "^11.7.6"
   },
   "scripts": {
     "lint": "scripts/lint",
-    "release": "scripts/release",
     "test": "scripts/test"
   },
   "repository": {
@@ -49,6 +45,14 @@
     "url": "https://github.com/runk/npm-proxy-cache/issues"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=22.13.0"
+  },
+  "overrides": {
+    "mocha": {
+      "diff": "^8.0.3",
+      "glob": "^13.0.0",
+      "minimatch": "^10.2.0",
+      "serialize-javascript": "^7.0.5"
+    }
   }
 }

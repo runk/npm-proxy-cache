@@ -1,27 +1,87 @@
 #!/usr/bin/env node
 
-var fs = require('fs'),
-  program = require('commander');
+const fs = require('fs');
+const { parseArgs } = require('node:util');
 
-var numeric = function (v) {
-  return parseInt(v, 10);
+const packageInfo = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8'));
+const help = `Usage: npm-proxy-cache [options]
+
+Options:
+  -V, --version               Output the version number
+  -h, --host <name>           Hostname (default: "localhost")
+  -p, --port <number>         Port (default: 8080)
+  -t, --ttl <seconds>         Cache lifetime in seconds (default: 1800)
+  -s, --storage <path>        Storage path
+  -x, --proxy <address>       HTTP proxy to use
+  -e, --expired               Use expired cache when the registry is unavailable
+  -f, --friendly-names        Use actual file names instead of cache hashes
+  -v, --verbose               Enable verbose logging
+  -n, --metadata-excluded     Exclude metadata requests from caching
+  -l, --log-path <path>       Log path
+  -m, --internal-port <port>  Port for the internal HTTPS MITM server
+      --help                  Display help
+`;
+
+let values;
+try {
+  ({ values } = parseArgs({
+    options: {
+      version: { type: 'boolean', short: 'V' },
+      host: { type: 'string', short: 'h', default: 'localhost' },
+      port: { type: 'string', short: 'p', default: '8080' },
+      ttl: { type: 'string', short: 't', default: '1800' },
+      storage: { type: 'string', short: 's', default: __dirname + '/../cache' },
+      proxy: { type: 'string', short: 'x' },
+      expired: { type: 'boolean', short: 'e' },
+      'friendly-names': { type: 'boolean', short: 'f' },
+      verbose: { type: 'boolean', short: 'v' },
+      'metadata-excluded': { type: 'boolean', short: 'n' },
+      'log-path': { type: 'string', short: 'l' },
+      'internal-port': { type: 'string', short: 'm' },
+      help: { type: 'boolean' }
+    },
+    strict: true,
+    allowPositionals: false
+  }));
+} catch (err) {
+  console.error(err.message);
+  console.error('Run npm-proxy-cache --help for usage.');
+  process.exit(1);
+}
+
+if (values.help) {
+  process.stdout.write(help);
+  process.exit(0);
+}
+
+if (values.version) {
+  console.log(packageInfo.version);
+  process.exit(0);
+}
+
+const opts = {
+  host: values.host,
+  port: integer(values.port, 'port'),
+  ttl: integer(values.ttl, 'ttl'),
+  storage: values.storage,
+  proxy: values.proxy,
+  expired: values.expired,
+  friendlyNames: values['friendly-names'],
+  verbose: values.verbose,
+  metadataExcluded: values['metadata-excluded'],
+  logPath: values['log-path'],
+  internalPort: values['internal-port'] === undefined
+    ? undefined
+    : integer(values['internal-port'], 'internal-port')
 };
 
-program
-  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+require('../lib/proxy').powerup(opts);
 
-  .option('-h, --host [name]', 'Hostname [localhost]', 'localhost')
-  .option('-p, --port [number]', 'An integer argument [8080]', numeric, 8080)
-  .option('-t, --ttl [seconds]', 'Cache lifetime in seconds [1800]', numeric, 1800)
-  .option('-s, --storage [path]', 'Storage path', __dirname + '/../cache')
-  .option('-x, --proxy [address]', 'HTTP proxy to be used, e.g. http://user:pass@example.com:8888/')
-  .option('-e, --expired', 'Use expired cache when npm registry unavailable')
-  .option('-f, --friendly-names', 'Use actual file names instead of hashes in the cache')
-  .option('-v, --verbose', 'Verbose mode')
-  .option('-n, --metadata-excluded', 'Exclude metadata requests from caching')
-  .option('-l, --log-path [path]', 'Log path')
-  .option('-m, --internal-port [port]',
-    'HTTPs port to use for internal proxying "MITM" server (mandatory on Windows systems)')
-  .parse(process.argv);
-
-require('../lib/proxy').powerup(program);
+function integer(value, name) {
+  const number = Number(value);
+  if (!/^\d+$/.test(value) || !Number.isSafeInteger(number)) {
+    console.error('Option --' + name + ' must be a non-negative integer.');
+    process.exit(1);
+  }
+  return number;
+}

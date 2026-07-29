@@ -102,7 +102,7 @@ npm --proxy http://npm-proxy-cache:8080 --https-proxy http://npm-proxy-cache:808
 
 ## Limitations
 
- - Works only with node `6` and above.
+ - Requires Node.js `22.13` or newer.
 
 
 ----

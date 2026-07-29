@@ -1,11 +1,11 @@
-FROM mhart/alpine-node:8
+FROM node:24-alpine
 
-MAINTAINER Dmitry Shirokov <deadrunk@gmail.com>
+LABEL maintainer="Dmitry Shirokov <deadrunk@gmail.com>"
 
 ADD package.json /tmp/package.json
 
 RUN cd /tmp && \
-    npm install --production && \
+    npm install --omit=dev && \
     mkdir -p /opt/npm-proxy-cache && \
     cp -a /tmp/node_modules /opt/npm-proxy-cache && \
     mkdir -p /opt/npm-proxy-cache/cache
