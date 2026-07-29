@@ -5,7 +5,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "commander": "^15.0.0",
     "https-proxy-agent": "^9.1.0",
     "log4js": "^6.9.1"
   },
@@ -47,7 +46,7 @@
     "url": "https://github.com/runk/npm-proxy-cache/issues"
   },
   "engines": {
-    "node": ">=24"
+    "node": ">=22.13.0"
   },
   "overrides": {
     "mocha": {
