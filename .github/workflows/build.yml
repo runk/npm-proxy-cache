@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x, 24.x]
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm i
+    - run: npm test
