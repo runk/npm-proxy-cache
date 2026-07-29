@@ -2,7 +2,7 @@
 const assert = require('assert');
 const path = require('path');
 const fs = require('fs');
-const rimraf = require('rimraf');
+const { PassThrough, Readable } = require('stream');
 const Cache = require('../lib/cache');
 
 describe('cache', function() {
@@ -16,12 +16,12 @@ describe('cache', function() {
     opts = { path: filepath, ttl: 10 };
   });
 
-  before(function(done) {
-    rimraf(filepath, done);
+  before(function() {
+    fs.rmSync(filepath, { recursive: true, force: true });
   });
 
-  after(function(done) {
-    rimraf(filepath, done);
+  after(function() {
+    fs.rmSync(filepath, { recursive: true, force: true });
   });
 
 
@@ -30,17 +30,23 @@ describe('cache', function() {
       const cache = new Cache(opts);
       assert(cache instanceof Cache);
     });
+
+    it('should use defaults when options are omitted', function() {
+      const cache = new Cache();
+      assert.equal(cache.opts.ttl, 1800 * 1000);
+      assert.equal(cache.opts.friendlyNames, undefined);
+    });
   });
 
 
   describe('write()', function() {
-    const readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
-
     it('should write the file', function(done) {
       const cache = new Cache(opts);
       const key = '/-/foo/bar.dat';
       const pathInfo = cache.getPath(key);
+      const readStream = fs.createReadStream(path.join(__dirname, 'dummy.data'));
       cache.write(key, readStream, function(err, meta) {
+        if (err) return done(err);
         assert.equal(meta.size, 31);
         assert.equal(meta.status, 4);
         assert.equal(fs.readFileSync(pathInfo.full, 'utf8'), dummy);
@@ -61,6 +67,46 @@ describe('cache', function() {
 
       assert(cache.locks[key], 'Lock should be set');
       assert(!fs.existsSync(pathInfo.full));
+    });
+
+    it('should release the lock when the input stream fails', function(done) {
+      const cache = new Cache(opts);
+      const key = '/-/foo/failure.dat';
+      const readStream = new Readable({
+        read: function() {
+          this.destroy(new Error('stream failed'));
+        }
+      });
+
+      cache.write(key, readStream, function(err) {
+        assert.match(err.message, /stream failed/);
+        assert(!cache.locks[key], 'Lock should be released after an error');
+        assert(!fs.existsSync(cache.getPath(key).full));
+        done();
+      });
+    });
+
+    it('should make metadata readers wait for an active write', function(done) {
+      const cache = new Cache(opts);
+      const key = '/-/foo/delayed.dat';
+      const readStream = new PassThrough();
+      let metaCalled = false;
+
+      cache.write(key, readStream, function(err) {
+        if (err) return done(err);
+      });
+      cache.meta(key, function(err, meta) {
+        if (err) return done(err);
+        metaCalled = true;
+        assert.equal(meta.status, Cache.FRESH);
+        assert.equal(meta.size, dummy.length);
+        done();
+      });
+
+      setTimeout(function() {
+        assert.equal(metaCalled, false);
+        readStream.end(dummy);
+      }, 20);
     });
   });
 
